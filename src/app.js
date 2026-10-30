@@ -1,4 +1,4 @@
-import { firstRound, maxWait, nextGame, replacePlayer, shuffle, women } from './draw.js';
+import { finishedJoinFirst, firstRound, maxWait, nextGame, replacePlayer, shuffle, women } from './draw.js';
 import * as store from './store.js';
 
 const app = document.getElementById('app');
@@ -71,8 +71,7 @@ const save = () => store.saveSession(session);
 
 function waitText(waiting) {
   if (waiting <= 0) return 'waiting';
-  const w = maxWait(waiting);
-  return w ? `waiting · max ${plural(w, 'game')} out` : 'waiting · all back in next game';
+  return `waiting · max ${plural(maxWait(waiting), 'game')} out in a row`;
 }
 
 function balanceText(a, b) {
@@ -359,10 +358,11 @@ function drawView() {
   const g = pending;
   const [a, b] = g.teams;
   const waiting = g.before.map(player);
+  const joinFirst = finishedJoinFirst(waiting.length);
   const label = p => {
     const i = g.before.indexOf(p.id);
     if (i === 0) return 'Was #1 · guaranteed';
-    return i > 0 ? `Drawn · was #${i + 1}` : 'Just played · fills in';
+    return i > 0 ? `Drawn · was #${i + 1}` : 'Just played · drawn';
   };
   const slot = p => {
     const cls = `slot${g.before.indexOf(p.id) === 0 ? ' guaranteed' : ''}`;
@@ -384,7 +384,7 @@ function drawView() {
     <h1 class="h1">Court ${g.court + 1} is free</h1>
   </header>
   <section class="draw-card dark" aria-labelledby="next-title">
-    <div class="row baseline"><h2 class="caps lime-text grow" id="next-title">Next game</h2><span class="hint on-dark">drawn from ${waiting.length} waiting · ${women(waiting)} F</span></div>
+    <div class="row baseline"><h2 class="caps lime-text grow" id="next-title">Next game</h2><span class="hint on-dark">drawn from ${waiting.length} waiting${joinFirst && g.finished.length ? ` + ${g.finished.length} just finished` : ` · ${women(waiting)} F`}</span></div>
     ${replacing ? '<p class="hint on-dark">Tap the player who isn’t here. They go on a break and someone else is drawn.</p>' : ''}
     ${notice ? `<p class="hint on-dark" role="status">${esc(notice)}</p>` : ''}
     <div class="drawn">${g.players.map(slot).join('')}</div>
@@ -393,11 +393,17 @@ function drawView() {
     <button class="btn outline-dark wide" data-action="toggle-replace">${replacing ? 'Cancel' : 'Someone’s missing? Replace a player'}</button>
   </section>
   ${g.away.length ? `<section class="pad stack-sm"><h2 class="caps">Going on a break</h2><ul class="chips">${g.away.map(p => `<li class="chip">${badge(p.sex)}${esc(p.name)}</li>`).join('')}</ul></section>` : ''}
-  ${resting.length ? `
+  ${resting.length && joinFirst ? `
+  <section class="pad stack-sm">
+    <h2 class="caps">Just finished · back in the list</h2>
+    <ul class="chips">${resting.map(p => `<li class="chip">${badge(p.sex)}${esc(p.name)}</li>`).join('')}</ul>
+    <p class="hint">With 4 or fewer waiting, the players who just finished join the end of the list before the draw, so the groups keep mixing.</p>
+  </section>` : ''}
+  ${resting.length && !joinFirst ? `
   <section class="pad stack-sm">
     <h2 class="caps">Just finished · resting</h2>
     <ul class="chips">${resting.map(p => `<li class="chip rested">${esc(p.name)}</li>`).join('')}</ul>
-    <p class="hint">Not eligible for this draw. They join the end of the queue. If fewer than 4 people are waiting, they fill the remaining spots.</p>
+    <p class="hint">Not in this draw, because more than 4 people are waiting. They join the end of the queue.</p>
   </section>` : ''}
   <section class="pad stack-sm">
     <h2 class="caps">New queue</h2>
