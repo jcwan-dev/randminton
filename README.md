@@ -16,7 +16,7 @@ Randomly picks players from the waiting pool for the next badminton game when a 
   - The draw prefers combinations that give an even number of women in the game (0, 2 or 4), picked at random among those. The #1 rule and the just-finished rule still apply first.
   - If the waiting list can't give an even number, the draw stays random and the sides are split as evenly as possible (e.g. 1 woman: she goes on one side).
   - With 2 women in a game, they're on opposite sides (mixed doubles). With 0 or 4, the split is random.
-- **Guarantee:** the list always moves forward, so with 8 waiting the longest anyone waits is 3 games.
+- **Guarantee:** the list always moves forward. With `W` people waiting, nobody sits out more than `W − 4` games in a row (8 waiting: at most 4, and that's rare). The New session screen shows this number.
 
 ## Design
 
@@ -42,8 +42,26 @@ Look: court green `#1F6B4A`, lime highlight `#C6F24E`, dark text `#12201A`, ligh
 - The 4 players coming off court join the end of the list in random order.
 - Extra actions: add a late player, take a break, replace a missing player.
 
+## Development
+
+The app is plain HTML, CSS and JavaScript (ES modules), with no build step and no dependencies.
+
+| Path | What it is |
+| --- | --- |
+| `index.html`, `styles.css` | The page and its styles |
+| `src/draw.js` | The rotation rules: first round, next game, sex balance, replacing a player |
+| `src/store.js` | Saving the session, the New session draft and past players in the browser (`localStorage`) |
+| `src/app.js` | The screens and what each button does |
+| `test/draw.test.js` | Tests for the rules |
+
+- **Run it:** `npm start`, then open the address it prints. (The page has to be served, it doesn't work opened as a file.)
+- **Test it:** `npm test` (Node 20 or later).
+- **Deploy:** every push to `main` runs the tests and publishes the site with GitHub Pages (`.github/workflows/pages.yml`). Pull requests run the tests only.
+
+On a screen 900 px or wider (a tablet in landscape), the live session switches to the courtside layout: courts in a grid, waiting list on the side.
+
 ## Next steps
 
 - [ ] Add the other requirements
 - [x] Create the GitHub repo: https://github.com/jcwan-dev/randminton (public)
-- [ ] Build the app (works in a phone browser, saves the session on the device) and host it on GitHub Pages
+- [ ] Build the app (works in a phone browser, saves the session on the device) and host it on GitHub Pages: first version in progress

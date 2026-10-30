@@ -1,0 +1,13 @@
+{
+  "name": "randminton",
+  "private": true,
+  "type": "module",
+  "description": "Random player rotation for badminton sessions",
+  "scripts": {
+    "test": "node --test \"test/**/*.test.js\"",
+    "start": "npx --yes serve@14.2.4 ."
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
