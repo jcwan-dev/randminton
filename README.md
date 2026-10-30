@@ -5,6 +5,7 @@ Randomly picks players from the waiting pool for the next badminton game when a 
 ## Rules (v1)
 
 - **New session:** enter the number of courts and the list of players. Each player has a **name** and a **sex** (`F` or `M`). A pasted list uses one `name,sex` per line, e.g. `Ana,F`.
+- **Past players:** every player is saved on the device with their sex, the date they last played and how many sessions they've played. On the New session screen, **Pick from past players** opens a list you can search and sort (recent first, most played, A–Z). Tap names to select them, or use **Select everyone from last session**. New names typed in are saved automatically.
 - **First round:** randomly place `courts × 4` players on court, balanced by sex (see below). Everyone else waits, in random order.
 - **When a court frees up:**
   - The player at **#1** in the waiting list always gets in.
@@ -26,6 +27,7 @@ Source in `design/`. Open the canvas link to see these files. They don't display
 | Screen | File |
 | --- | --- |
 | 1 · New session | `design/Main.dc.html` |
+| 1b · Pick from past players | `design/PastPlayers.dc.html` |
 | 2 · Live session (phone) | `design/Live.dc.html` |
 | 3 · Court free → draw | `design/Draw.dc.html` |
 | 4 · Courtside tablet view | `design/Courtside.dc.html` |
