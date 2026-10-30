@@ -390,7 +390,10 @@ function drawView() {
     <div class="drawn">${g.players.map(slot).join('')}</div>
     <div class="teams-box">${teamsView(a, b)}<div class="balance">${icon.scale}${balanceText(a, b)}</div></div>
     <button class="btn lime big wide" data-action="start-game">Start game on Court ${g.court + 1}</button>
-    <button class="btn outline-dark wide" data-action="toggle-replace">${replacing ? 'Cancel' : 'Someone’s missing? Replace a player'}</button>
+    <div class="row">
+      <button class="btn outline-dark grow" data-action="redraw" ${replacing ? 'disabled' : ''}>${icon.dice}Redraw</button>
+      <button class="btn outline-dark grow" data-action="toggle-replace">${replacing ? 'Cancel' : 'Replace a player'}</button>
+    </div>
   </section>
   ${g.away.length ? `<section class="pad stack-sm"><h2 class="caps">Going on a break</h2><ul class="chips">${g.away.map(p => `<li class="chip">${badge(p.sex)}${esc(p.name)}</li>`).join('')}</ul></section>` : ''}
   ${resting.length && joinFirst ? `
@@ -522,6 +525,17 @@ const actions = {
     pending = null;
     notice = '';
     view = 'live';
+  },
+  // Draws again from the same list. Anyone marked missing stays out.
+  redraw: () => {
+    const away = pending.away;
+    const finished = pending.finished.filter(p => !away.includes(p));
+    const game = nextGame(pending.before.map(player).filter(p => !away.includes(p)), finished);
+    if (!game) {
+      notice = 'Not enough players to draw again.';
+      return;
+    }
+    pending = { ...pending, ...game, finished };
   },
   'toggle-replace': () => {
     replacing = !replacing;
