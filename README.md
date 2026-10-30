@@ -46,6 +46,17 @@ Look: court green `#1F6B4A`, lime highlight `#C6F24E`, dark text `#12201A`, ligh
 - The 4 players coming off court join the end of the list in random order.
 - Extra actions: add a late player, take a break, replace a missing player.
 
+## Install on a phone
+
+No app store needed. Open **https://jcwan-dev.github.io/randminton/** once with signal, then:
+
+- **Android (Chrome):** menu **⋮**, then **Install app** (or **Add to Home screen**).
+- **iPhone (Safari):** **Share**, then **Add to Home Screen**.
+
+It opens full screen from its icon and works with no signal. Updates arrive on their own: with signal, it loads the latest version, and without signal (or if the network takes more than 3 seconds) it opens the saved copy.
+
+Sessions and past players are saved on that phone only. Clearing the browser's data for the site deletes them.
+
 ## Development
 
 The app is plain HTML, CSS and JavaScript (ES modules), with no build step and no dependencies.
@@ -57,6 +68,9 @@ The app is plain HTML, CSS and JavaScript (ES modules), with no build step and n
 | `src/store.js` | Saving the session, the New session draft and past players in the browser (`localStorage`) |
 | `src/app.js` | The screens and what each button does |
 | `test/draw.test.js` | Tests for the rules |
+| `manifest.webmanifest`, `icons/` | Lets phones install it as an app (name, icon, full screen) |
+| `sw.js` | Offline support: keeps a copy of the app so it opens with no signal |
+| `scripts/make-icons.mjs` | Draws the icons (`node scripts/make-icons.mjs`) |
 
 - **Run it:** `npm start`, then open the address it prints. (The page has to be served, it doesn't work opened as a file.)
 - **Test it:** `npm test` (Node 20 or later).
