@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Randminton – Next game draw</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#1F6B4A}a:hover{color:#134631}
+</style>
+</helmet>
+<div style="width: 390px; height: 1100px; box-sizing: border-box; background: #F4F6F3; color: #12201A; font-family: Inter, system-ui, sans-serif; display: flex; flex-direction: column">
+  <header style="padding: 20px 20px 8px; display: flex; align-items: center; gap: 8px">
+    <a href="Live.dc.html" aria-label="Back to session" style="width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #12201A">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+    </a>
+    <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 22px; letter-spacing: -0.02em">Court 3 is free</span>
+  </header>
+
+  <section style="margin: 8px 20px 0; background: #12201A; color: #FFFFFF; border-radius: 20px; padding: 18px; display: flex; flex-direction: column; gap: 14px">
+    <div style="display: flex; justify-content: space-between; align-items: baseline">
+      <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #C6F24E">Next game</span>
+      <span style="font-size: 12px; color: #B9C6BF">drawn from 7 waiting · 4 F</span>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+      <div style="background: #C6F24E; color: #12201A; border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 4px">
+        <span style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em">Was #1 · guaranteed</span>
+        <span style="display: flex; align-items: center; gap: 8px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px"><span style="width: 20px; height: 20px; border-radius: 999px; box-sizing: border-box; border: 1px solid #12201A; background: transparent; color: #12201A; display: inline-flex; align-items: center; justify-content: center; font-family: Inter, sans-serif; font-size: 11px; font-weight: 700; flex: none">M</span>Quentin</span>
+      </div>
+      <sc-for list="{{drawn}}" as="d" hint-placeholder-count="3">
+        <div style="background: #24362D; border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 4px">
+          <span style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #B9C6BF">Drawn · was #{{d.pos}}</span>
+          <span style="display: flex; align-items: center; gap: 8px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px"><span style="width: 20px; height: 20px; border-radius: 999px; box-sizing: border-box; border: 1px solid {{d.bd}}; background: {{d.bg}}; color: {{d.fg}}; display: inline-flex; align-items: center; justify-content: center; font-family: Inter, sans-serif; font-size: 11px; font-weight: 700; flex: none">{{d.sex}}</span>{{d.name}}</span>
+        </div>
+      </sc-for>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 8px; padding: 12px; border-radius: 12px; background: #1B2B23">
+      <div style="display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 8px; font-size: 14px">
+        <div style="display: flex; flex-direction: column; gap: 4px">
+          <span style="display: flex; align-items: center; gap: 6px"><span style="width: 18px; height: 18px; border-radius: 999px; box-sizing: border-box; border: 1px solid #A9C9B8; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; flex: none">M</span>Quentin</span>
+          <span style="display: flex; align-items: center; gap: 6px"><span style="width: 18px; height: 18px; border-radius: 999px; box-sizing: border-box; background: #C6F24E; color: #12201A; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; flex: none">F</span>Tara</span>
+        </div>
+        <span style="font-size: 12px; color: #B9C6BF">vs</span>
+        <div style="display: flex; flex-direction: column; gap: 4px">
+          <span style="display: flex; align-items: center; justify-content: flex-end; gap: 6px">Victor<span style="width: 18px; height: 18px; border-radius: 999px; box-sizing: border-box; border: 1px solid #A9C9B8; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; flex: none">M</span></span>
+          <span style="display: flex; align-items: center; justify-content: flex-end; gap: 6px">Wen<span style="width: 18px; height: 18px; border-radius: 999px; box-sizing: border-box; background: #C6F24E; color: #12201A; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; flex: none">F</span></span>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px; padding-top: 8px; border-top: 1px solid #2E4238; font-size: 13px; color: #C6F24E">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18"></path><path d="M5 7h14"></path><path d="M5 7l-3 7a3 3 0 0 0 6 0z"></path><path d="M19 7l-3 7a3 3 0 0 0 6 0z"></path></svg>
+        Balanced · 1 woman on each side
+      </div>
+    </div>
+    <a href="Live.dc.html" style="display: flex; align-items: center; justify-content: center; height: 52px; border-radius: 14px; background: #C6F24E; color: #12201A; text-decoration: none; font-weight: 600; font-size: 16px">Start game on Court 3</a>
+    <button style="height: 40px; border-radius: 12px; border: 1px solid #3A4E44; background: transparent; color: #FFFFFF; font-family: inherit; font-size: 14px">Someone’s missing? Replace a player</button>
+  </section>
+
+  <section style="margin: 16px 20px 0; padding: 14px 16px; border-radius: 16px; background: #FFFFFF; border: 1px solid #DDE3DE; display: flex; flex-direction: column; gap: 6px">
+    <h2 style="margin: 0; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #4F6158">How the draw balances</h2>
+    <p style="margin: 0; font-size: 13px; color: #4F6158; line-height: 1.45">The 3 drawn spots favour an even number of women (0, 2 or 4 in the game) so each side gets the same. If the waiting list can’t allow it, the draw stays random and the sides are split as evenly as possible.</p>
+  </section>
+
+  <section style="padding: 20px 20px 0; display: flex; flex-direction: column; gap: 10px">
+    <h2 style="margin: 0; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #4F6158">Just finished · resting</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 6px">
+      <sc-for list="{{rested}}" as="r" hint-placeholder-count="4">
+        <span style="display: inline-flex; align-items: center; height: 32px; padding: 0 12px; border-radius: 999px; background: #E9EEEA; color: #4F6158; font-size: 14px; text-decoration: line-through">{{r}}</span>
+      </sc-for>
+    </div>
+    <p style="margin: 0; font-size: 13px; color: #4F6158; line-height: 1.45">Not eligible for this draw. They join the end of the queue. If fewer than 4 people are waiting, they fill the remaining spots.</p>
+  </section>
+
+  <section style="padding: 20px 20px 28px; display: flex; flex-direction: column; gap: 10px">
+    <h2 style="margin: 0; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #4F6158">New queue</h2>
+    <ol style="list-style: none; margin: 0; padding: 0; background: #FFFFFF; border: 1px solid #DDE3DE; border-radius: 18px; overflow: hidden">
+      <sc-for list="{{queue}}" as="q" hint-placeholder-count="8">
+        <li style="display: flex; align-items: center; gap: 12px; padding: 10px 16px; border-bottom: 1px solid #E9EEEA; background: {{q.bg}}">
+          <span style="width: 26px; height: 26px; border-radius: 8px; background: {{q.badgeBg}}; color: {{q.badgeFg}}; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px">{{q.pos}}</span>
+          <span style="flex: 1; display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: {{q.weight}}"><span style="width: 20px; height: 20px; border-radius: 999px; box-sizing: border-box; border: 1px solid {{q.sbd}}; background: {{q.sbg}}; color: {{q.sfg}}; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex: none">{{q.sex}}</span>{{q.name}}</span>
+          <span style="font-size: 12px; color: #4F6158">{{q.note}}</span>
+        </li>
+      </sc-for>
+    </ol>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1100}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const row = (pos, s, note) => {
+      const [name, sex] = s.split(' ');
+      const badge = sex === 'F'
+        ? { sbg: '#12201A', sfg: '#FFFFFF', sbd: '#12201A' }
+        : { sbg: '#FFFFFF', sfg: '#12201A', sbd: '#8A9A91' };
+      return {
+        pos, name, sex, note, ...badge,
+        bg: pos === 1 ? '#EEF9D2' : '#FFFFFF',
+        badgeBg: pos === 1 ? '#12201A' : '#E9EEEA',
+        badgeFg: pos === 1 ? '#C6F24E' : '#12201A',
+        weight: pos === 1 ? 600 : 400
+      };
+    };
+    // On the dark draw cards: F filled lime, M outlined white.
+    const drawn = (pos, s) => {
+      const [name, sex] = s.split(' ');
+      return sex === 'F'
+        ? { pos, name, sex, bg: '#C6F24E', fg: '#12201A', bd: '#C6F24E' }
+        : { pos, name, sex, bg: 'transparent', fg: '#FFFFFF', bd: '#A9C9B8' };
+    };
+    return {
+      drawn: [drawn(4, 'Tara F'), drawn(6, 'Victor M'), drawn(7, 'Wen F')],
+      rested: ['Ivo', 'Jade', 'Kai', 'Lena'],
+      queue: [
+        row(1, 'Rosa F', 'next in · was #2'),
+        row(2, 'Sami M', 'was #3'),
+        row(3, 'Uma F', 'was #5'),
+        row(4, 'Xavier M', 'was #8'),
+        row(5, 'Kai M', 'just played'),
+        row(6, 'Ivo M', 'just played'),
+        row(7, 'Lena F', 'just played'),
+        row(8, 'Jade F', 'just played')
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

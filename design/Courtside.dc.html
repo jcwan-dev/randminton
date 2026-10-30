@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Randminton – Courtside view</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#1F6B4A}a:hover{color:#134631}
+</style>
+</helmet>
+<div style="width: 1194px; height: 834px; box-sizing: border-box; background: #F4F6F3; color: #12201A; font-family: Inter, system-ui, sans-serif; padding: 28px; display: flex; flex-direction: column; gap: 20px">
+  <header style="display: flex; align-items: center; justify-content: space-between">
+    <div style="display: flex; align-items: baseline; gap: 14px">
+      <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 30px; letter-spacing: -0.02em">Randminton</span>
+      <span style="font-size: 15px; color: #4F6158">4 courts · 24 players (12 F · 12 M) · started 19:30</span>
+    </div>
+    <div style="display: flex; gap: 8px">
+      <button style="height: 44px; padding: 0 18px; border-radius: 12px; border: 1px solid #C9D2CC; background: #FFFFFF; font-family: inherit; font-weight: 500; font-size: 14px; color: #12201A">Players</button>
+      <button style="height: 44px; padding: 0 18px; border-radius: 12px; border: 1px solid #C9D2CC; background: #FFFFFF; font-family: inherit; font-weight: 500; font-size: 14px; color: #12201A">End session</button>
+    </div>
+  </header>
+
+  <div style="flex: 1; display: flex; gap: 20px; min-height: 0">
+    <main style="flex: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px">
+      <sc-for list="{{courts}}" as="c" hint-placeholder-count="4">
+        <article style="background: #1F6B4A; color: #FFFFFF; border-radius: 22px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between">
+          <div style="display: flex; justify-content: space-between; align-items: center">
+            <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 24px">Court {{c.n}}</span>
+            <span style="font-size: 15px; font-variant-numeric: tabular-nums; opacity: 0.9">{{c.time}}</span>
+          </div>
+          <div style="display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 12px; padding: 18px 16px; border-radius: 14px; border: 2px solid #4C8B6C; font-size: 20px; font-weight: 600">
+            <div style="display: flex; flex-direction: column; gap: 8px">
+              <span style="display: flex; align-items: center; gap: 8px"><span style="width: 24px; height: 24px; border-radius: 999px; box-sizing: border-box; border: 1px solid {{c.a1.bd}}; background: {{c.a1.bg}}; color: {{c.a1.fg}}; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex: none">{{c.a1.sex}}</span>{{c.a1.name}}</span>
+              <span style="display: flex; align-items: center; gap: 8px"><span style="width: 24px; height: 24px; border-radius: 999px; box-sizing: border-box; border: 1px solid {{c.a2.bd}}; background: {{c.a2.bg}}; color: {{c.a2.fg}}; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex: none">{{c.a2.sex}}</span>{{c.a2.name}}</span>
+            </div>
+            <span style="font-size: 13px; font-weight: 500; opacity: 0.75">vs</span>
+            <div style="display: flex; flex-direction: column; gap: 8px">
+              <span style="display: flex; align-items: center; justify-content: flex-end; gap: 8px">{{c.b1.name}}<span style="width: 24px; height: 24px; border-radius: 999px; box-sizing: border-box; border: 1px solid {{c.b1.bd}}; background: {{c.b1.bg}}; color: {{c.b1.fg}}; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex: none">{{c.b1.sex}}</span></span>
+              <span style="display: flex; align-items: center; justify-content: flex-end; gap: 8px">{{c.b2.name}}<span style="width: 24px; height: 24px; border-radius: 999px; box-sizing: border-box; border: 1px solid {{c.b2.bd}}; background: {{c.b2.bg}}; color: {{c.b2.fg}}; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex: none">{{c.b2.sex}}</span></span>
+            </div>
+          </div>
+          <a href="Draw.dc.html" style="display: flex; align-items: center; justify-content: center; height: 52px; border-radius: 14px; background: #C6F24E; color: #12201A; text-decoration: none; font-weight: 600; font-size: 17px">Court free</a>
+        </article>
+      </sc-for>
+    </main>
+
+    <aside style="width: 320px; background: #FFFFFF; border: 1px solid #DDE3DE; border-radius: 22px; padding: 20px; display: flex; flex-direction: column; gap: 12px">
+      <div style="display: flex; justify-content: space-between; align-items: baseline">
+        <h2 style="margin: 0; font-size: 14px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #4F6158">Waiting · 8 · 4 F</h2>
+        <span style="font-size: 12px; color: #4F6158">max wait 3 games</span>
+      </div>
+      <div style="background: #12201A; color: #FFFFFF; border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 4px">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #C6F24E">Next in · guaranteed</span>
+        <span style="display: flex; align-items: center; gap: 10px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 28px"><span style="width: 24px; height: 24px; border-radius: 999px; box-sizing: border-box; border: 1px solid #A9C9B8; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; font-family: Inter, sans-serif; font-size: 12px; font-weight: 700; flex: none">M</span>Quentin</span>
+      </div>
+      <span style="font-size: 13px; color: #4F6158">In the draw for 3 spots · balanced by sex</span>
+      <ol style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px">
+        <sc-for list="{{queue}}" as="q" hint-placeholder-count="7">
+          <li style="display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 12px; border-radius: 12px; background: #F4F6F3">
+            <span style="width: 28px; height: 28px; border-radius: 8px; background: #E1E8E3; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 14px">{{q.pos}}</span>
+            <span style="width: 22px; height: 22px; border-radius: 999px; box-sizing: border-box; border: 1px solid {{q.bd}}; background: {{q.bg}}; color: {{q.fg}}; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex: none">{{q.sex}}</span>
+            <span style="font-size: 17px">{{q.name}}</span>
+          </li>
+        </sc-for>
+      </ol>
+    </aside>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1194,"height":834}}'>
+class Component extends DCLogic {
+  renderVals() {
+    // On the green court cards: F filled lime, M outlined white.
+    const onCourt = s => {
+      const [name, sex] = s.split(' ');
+      return sex === 'F'
+        ? { name, sex, bg: '#C6F24E', fg: '#12201A', bd: '#C6F24E' }
+        : { name, sex, bg: 'transparent', fg: '#FFFFFF', bd: '#A9C9B8' };
+    };
+    // In the light queue list: F filled dark, M outlined.
+    const inQueue = (pos, s) => {
+      const [name, sex] = s.split(' ');
+      return sex === 'F'
+        ? { pos, name, sex, bg: '#12201A', fg: '#FFFFFF', bd: '#12201A' }
+        : { pos, name, sex, bg: '#FFFFFF', fg: '#12201A', bd: '#8A9A91' };
+    };
+    const court = (n, time, a1, a2, b1, b2) => ({ n, time, a1: onCourt(a1), a2: onCourt(a2), b1: onCourt(b1), b2: onCourt(b2) });
+    return {
+      courts: [
+        court(1, '14:02', 'Ana F', 'Marco M', 'Dev M', 'Pia F'),
+        court(2, '11:47', 'Ben M', 'Hana F', 'Omar M', 'Fatima F'),
+        court(3, '18:31', 'Ivo M', 'Jade F', 'Kai M', 'Lena F'),
+        court(4, '06:15', 'Chloé F', 'Gus M', 'Eli M', 'Nina F')
+      ],
+      queue: [
+        inQueue(2, 'Rosa F'), inQueue(3, 'Sami M'), inQueue(4, 'Tara F'),
+        inQueue(5, 'Uma F'), inQueue(6, 'Victor M'), inQueue(7, 'Wen F'),
+        inQueue(8, 'Xavier M')
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
