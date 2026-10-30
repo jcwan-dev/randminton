@@ -74,13 +74,23 @@ test('next game balances women when the waiting list allows it', () => {
   }
 });
 
-test('fewer than 4 waiting: just-finished players fill the spots', () => {
-  const players = roster('F M F M F M');
-  const game = nextGame(players.slice(0, 2), players.slice(2), seeded(3));
-  assert.ok(game.players.includes(players[0]) && game.players.includes(players[1]));
-  assert.equal(game.players.length, 4);
-  assert.equal(game.queue.length, 2);
-  assert.equal(nextGame(players.slice(0, 1), players.slice(1, 3), seeded(3)), null);
+test('4 or fewer waiting: just-finished players join the list before the draw', () => {
+  const players = roster('F M F M F M F M');
+  for (const waiting of [0, 1, 2, 3, 4]) {
+    const queue = players.slice(0, waiting);
+    const finished = players.slice(4, 8);
+    let finishedPlayed = false;
+    for (const seed of SEEDS) {
+      const game = nextGame(queue, finished, seeded(seed));
+      if (waiting) assert.equal(game.players[0], queue[0], '#1 still plays');
+      assert.equal(game.players.length, 4);
+      assert.equal(game.queue.length, waiting);
+      assert.equal(new Set([...game.players, ...game.queue]).size, waiting + 4);
+      finishedPlayed ||= game.players.some(p => finished.includes(p) && waiting === 4);
+    }
+    if (waiting === 4) assert.ok(finishedPlayed, 'with exactly 4 waiting, groups mix');
+  }
+  assert.equal(nextGame([], players.slice(0, 3), seeded(3)), null);
 });
 
 test('first round: every court is balanced when possible and nobody is lost', () => {
@@ -120,26 +130,34 @@ test('replacing a missing player keeps the balance', () => {
   }
 });
 
-test('nobody sits out more than maxWait games in a row', () => {
-  const players = roster('F M F M F F M M F M M M F M F M F M M F M F M M');
-  const rng = seeded(42);
-  const { courts, queue: start } = firstRound(players, 4, rng);
-  let onCourt = courts.map(c => c.teams.flat());
-  let queue = start;
-  const sat = new Map(players.map(p => [p, 0]));
-  let worst = 0;
-  for (let g = 0; g < 5000; g++) {
-    const c = Math.floor(rng() * onCourt.length);
-    const game = nextGame(queue, onCourt[c], rng);
-    for (const p of queue) {
-      if (game.players.includes(p)) sat.set(p, 0);
-      else {
-        sat.set(p, sat.get(p) + 1);
-        worst = Math.max(worst, sat.get(p));
+test('nobody sits out more than maxWait games in a row, and groups mix', () => {
+  const spec = 'F M F M F F M M F M M M F M F M F M M F M F M M F M';
+  for (const waiting of [0, 1, 2, 3, 4, 5, 6, 8, 10]) {
+    const players = roster(spec).slice(0, 16 + waiting);
+    const rng = seeded(42 + waiting);
+    const { courts, queue: start } = firstRound(players, 4, rng);
+    const onCourt = courts.map(c => c.teams.flat());
+    let queue = start;
+    // Every game that starts while someone is off court counts, the next game on their own court included.
+    const out = new Map(players.map(p => [p, 0]));
+    const partners = new Map(players.map(p => [p, new Set()]));
+    let worst = 0;
+    for (let g = 0; g < 5000; g++) {
+      const c = Math.floor(rng() * onCourt.length);
+      const game = nextGame(queue, onCourt[c], rng);
+      for (const p of [...queue, ...onCourt[c]]) {
+        if (game.players.includes(p)) out.set(p, 0);
+        else {
+          out.set(p, out.get(p) + 1);
+          worst = Math.max(worst, out.get(p));
+        }
       }
+      for (const p of game.players) for (const q of game.players) if (p !== q) partners.get(p).add(q);
+      onCourt[c] = game.players;
+      queue = game.queue;
     }
-    onCourt[c] = game.players;
-    queue = game.queue;
+    assert.ok(worst <= maxWait(waiting), `${waiting} waiting: worst ${worst}, max ${maxWait(waiting)}`);
+    // With nobody waiting the same 4 must keep playing; otherwise everyone meets new people.
+    if (waiting > 0) assert.ok(players.every(p => partners.get(p).size > 3), `${waiting} waiting: groups don't mix`);
   }
-  assert.ok(worst <= maxWait(8), `worst ${worst}`);
 });

@@ -10,13 +10,17 @@ Randomly picks players from the waiting pool for the next badminton game when a 
 - **When a court frees up:**
   - The player at **#1** in the waiting list always gets in.
   - The other **3** spots are drawn at random from the rest of the waiting list.
-  - The 4 players who just finished **can't be drawn**, unless fewer than 4 people are waiting.
-  - The players who just finished join the **end** of the waiting list.
+  - **More than 4 waiting:** the 4 players who just finished **can't be drawn**. They join the **end** of the waiting list after the draw.
+  - **4 or fewer waiting:** the 4 players who just finished join the **end** of the waiting list **before** the draw, so they can be drawn. Without this, with exactly 4 waiting, the same 4 people would play together all session (unless two games end at the same moment).
 - **Balance by sex:** each game tries to have the same number of women on both sides.
   - The draw prefers combinations that give an even number of women in the game (0, 2 or 4), picked at random among those. The #1 rule and the just-finished rule still apply first.
   - If the waiting list can't give an even number, the draw stays random and the sides are split as evenly as possible (e.g. 1 woman: she goes on one side).
   - With 2 women in a game, they're on opposite sides (mixed doubles). With 0 or 4, the split is random.
-- **Guarantee:** the list always moves forward. With `W` people waiting, nobody sits out more than `W − 4` games in a row (8 waiting: at most 4, and that's rare). The New session screen shows this number.
+- **Guarantee:** the list always moves forward. Counting every game that starts while you're off court (the next game on your own court included), with `W` people waiting nobody sits out more than:
+  - `W` games in a row when `W` is 4 or fewer
+  - `W − 3` games in a row when `W` is more than 4 (8 waiting: at most 5, which is rare)
+
+  The New session screen shows this number.
 
 ## Design
 

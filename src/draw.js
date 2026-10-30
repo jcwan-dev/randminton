@@ -12,9 +12,11 @@ export function shuffle(list, rng = Math.random) {
 
 export const women = players => players.filter(p => p.sex === 'F').length;
 
-// Worst case for someone joining the end of a list of `waiting` players:
-// the first draw moves them up 4 places, then each draw can skip them and move them up just 1.
-export const maxWait = waiting => Math.max(0, waiting - 4);
+// Most games in a row someone can sit out, counting every game that starts while they're off court
+// (the next game on their own court included). Each draw moves everyone up at least 1 place, so
+// it's the length of the list they have to climb: 4 or fewer waiting, the finished players are in
+// the draw straight away; more than 4, the next game on their court starts without them.
+export const maxWait = waiting => Math.max(0, waiting <= 4 ? waiting : waiting - 3);
 
 function combinations(list, k, start = 0, picked = [], out = []) {
   if (picked.length === k) {
@@ -76,23 +78,23 @@ export function firstRound(players, courtCount, rng = Math.random) {
   return { courts, queue: off };
 }
 
+// With this many waiting, the players who just finished join the end of the list before the draw.
+// Otherwise, with exactly 4 waiting, the same 4 would always play together.
+export const finishedJoinFirst = waiting => waiting <= 4;
+
 // A court frees up. `queue` is the waiting list in order, `finished` the 4 who just came off.
 // Returns { players, teams, queue } with the new waiting list, or null if there aren't 4 players.
 export function nextGame(queue, finished, rng = Math.random) {
-  if (queue.length >= 4) {
-    const [first, ...rest] = queue;
-    const players = [first, ...pickBalanced([first], rest, 3, rng)];
-    const remaining = queue.filter(p => !players.includes(p));
-    return { players, teams: splitTeams(players, rng), queue: [...remaining, ...shuffle(finished, rng)] };
-  }
-  if (queue.length + finished.length < 4) return null;
-  // Fewer than 4 waiting: they all play, and players who just finished fill the rest.
-  const fill = pickBalanced(queue, finished, 4 - queue.length, rng);
-  const players = [...queue, ...fill];
+  const joinFirst = finishedJoinFirst(queue.length);
+  const list = joinFirst ? [...queue, ...shuffle(finished, rng)] : queue;
+  if (list.length < 4) return null;
+  const [first, ...rest] = list;
+  const players = [first, ...pickBalanced([first], rest, 3, rng)];
+  const remaining = list.filter(p => !players.includes(p));
   return {
     players,
     teams: splitTeams(players, rng),
-    queue: shuffle(finished.filter(p => !fill.includes(p)), rng)
+    queue: joinFirst ? remaining : [...remaining, ...shuffle(finished, rng)]
   };
 }
 
