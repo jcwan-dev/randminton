@@ -616,6 +616,11 @@ document.addEventListener('keydown', e => {
   render();
 });
 
+// Lets the app be installed and open without signal (see sw.js).
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js').catch(() => {});
+}
+
 setInterval(() => {
   document.querySelectorAll('[data-since]').forEach(el => { el.textContent = elapsed(Number(el.dataset.since)); });
 }, 1000);
